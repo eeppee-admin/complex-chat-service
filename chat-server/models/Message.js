@@ -44,16 +44,34 @@ const MessageSchema = new mongoose.Schema({
     minlength: 1
   },
 
-  // 消息状态追踪
+  // 新增原始内容字段（撤回时保留原始数据）
+  originalContent: {
+    type: String,
+    select: false // 默认不返回
+  },
+
+  // 扩展消息状态枚举
   status: {
     type: String,
-    enum: ['sent', 'delivered', 'recalled'],
+    enum: ['sent', 'delivered', 'recalled'], // 新增撤回状态
     default: 'sent'
   },
   createdAt: {
     type: Date,
     default: Date.now,
     index: true // 添加索引加速查询
+  }
+}, {
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: function (doc, ret) {
+      // 撤回消息时替换内容
+      if (doc.status === 'recalled') {
+        ret.content = '[消息已撤回]';
+      }
+      return ret;
+    }
   }
 });
 

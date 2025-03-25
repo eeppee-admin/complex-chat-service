@@ -1,0 +1,46 @@
+# ### 创建群组,testuser创建一个群组
+# POST http://localhost:3000/api/groups
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItMzEyZmI5NWRiNmIzMTNlMWU0MWMyODg1IiwiaWF0IjoxNzQyODIzMTI4LCJleHAiOjE3NDI4NTE5Mjh9.4w0Arj_M1qzwPrlmLU1-L83BR7CKBi3t0pvnKJgx1SI
+# Content-Type: application/json
+
+# {
+#   "name": "开发群组",
+#   "members": ["usr-4ee1753b736e858107e754ea"]
+# }
+
+# ### 发送群消息
+# # 根据群组id发群聊消息太严格了，而是根据此登录用户有没有在群聊，
+# # # 查询所有群聊然后根据群名发送一条群聊消息
+# # POST http://localhost:3000/api/groups/67e156238ba37f5614ad6531/messages
+# # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItYWJjZjBmZTY2YWNiM2QzY2U4MDMwZGE1IiwiaWF0IjoxNzQyODE3Njc4LCJleHAiOjE3NDI4MjEyNzh9.0m90w78fQ_pfG3_Bbv5CABHAaEiXPHC8nPHc5kzXwsk
+# # Content-Type: application/json
+
+# # {
+# #   "content": "大家好，这是群消息测试"
+# # }
+
+# ### 查看我的群组
+# GET http://localhost:3000/api/groups/my-groups
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItMzEyZmI5NWRiNmIzMTNlMWU0MWMyODg1IiwiaWF0IjoxNzQyODIzMTI4LCJleHAiOjE3NDI4NTE5Mjh9.4w0Arj_M1qzwPrlmLU1-L83BR7CKBi3t0pvnKJgx1SI
+
+# ###
+# GET http://localhost:3000/api/groups/my-groups/开发群组
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItMzEyZmI5NWRiNmIzMTNlMWU0MWMyODg1IiwiaWF0IjoxNzQyODIzMTI4LCJleHAiOjE3NDI4NTE5Mjh9.4w0Arj_M1qzwPrlmLU1-L83BR7CKBi3t0pvnKJgx1SI
+
+# ### 验证用户存在性
+# GET http://localhost:4000/api/auth/users/usr-67e144d538239a5928994b2a
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItMzEyZmI5NWRiNmIzMTNlMWU0MWMyODg1IiwiaWF0IjoxNzQyODIzMTI4LCJleHAiOjE3NDI4NTE5Mjh9.4w0Arj_M1qzwPrlmLU1-L83BR7CKBi3t0pvnKJgx1SI
+
+# ### 通过群名退出群组（需要URL编码）
+# DELETE http://localhost:3000/api/groups/my-groups/开发群组/members/me
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItMzEyZmI5NWRiNmIzMTNlMWU0MWMyODg1IiwiaWF0IjoxNzQyODIzMTI4LCJleHAiOjE3NDI4NTE5Mjh9.4w0Arj_M1qzwPrlmLU1-L83BR7CKBi3t0pvnKJgx1SI
+
+
+# ### 通过群名发送消息（中文需要编码）
+# POST http://localhost:3000/api/groups/my-groups/%E5%BC%80%E5%8F%91%E7%BE%A4%E7%BB%84/messages
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+# {
+#   "content": "这是通过群组名发送的测试消息"
+# }

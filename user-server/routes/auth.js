@@ -1,8 +1,9 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import User from '../models/User.js';
+import User from '../../shared/models/User.js';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 dotenv.config();
 const router = express.Router();
@@ -11,8 +12,18 @@ const router = express.Router();
 router.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await User.create({ username, password });
-        res.status(201).json({ userId: user.userId });
+
+        // 生成符合格式要求的用户ID
+        const userId = `usr-${new mongoose.Types.ObjectId().toHexString()}`;
+
+        const newUser = new User({
+            _id: userId, // 明确设置_id字段
+            username,
+            password: await bcrypt.hash(password, 10)
+        });
+
+        await newUser.save();
+        res.status(201).json({ userId });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -22,19 +33,33 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
-        const user = await User.findOne({ username });
-
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ error: '无效的登录凭证' });
+        // 添加空值检查
+        if (!username || !password) {
+            return res.status(400).json({ error: '需要提供用户名和密码' });
         }
 
+        // 显式选择密码字段
+        const user = await User.findOne({ username }).select('+password');
+        if (!user) return res.status(404).json({ error: '用户不存在' });
+
+        // 添加密码存在性检查
+        if (!user.password) {
+            console.error('数据库密码字段异常:', user._id);
+            return res.status(500).json({ error: '系统错误' });
+        }
+
+        // 修复密码对比逻辑
+        const isMatch = await bcrypt.compare(String(password), user.password);
+        if (!isMatch) return res.status(401).json({ error: '密码错误' });
+
+        // 生成JWT令牌
         const token = jwt.sign(
-            { userId: user.userId },
-            process.env.JWT_SECRET, // 从环境变量读取
+            { userId: user._id },
+            process.env.JWT_SECRET,
             { expiresIn: '8h' }
         );
 
-        res.json({ token, userId: user.userId });
+        res.json({ token, userId: user._id, username: user.username });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -51,12 +76,7 @@ router.get('/verify', async (req, res) => {
     }
 });
 
-// 添加测试路由
-router.get('/test-verify', (req, res) => {
-    res.json({
-        userId: 'usr-1234567890abcdef12345678' // 标准格式
-    });
-});
+
 
 // 用户ID验证接口
 // 修改路由路径为 /exists/:id

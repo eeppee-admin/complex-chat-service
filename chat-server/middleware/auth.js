@@ -1,7 +1,10 @@
 // import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
+import User from '../../shared/models/User.js';
 
 export const verifyUser = async (req, res, next) => {
+
+
     try {
         const authHeader = req.headers.authorization;
 
@@ -19,7 +22,13 @@ export const verifyUser = async (req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.verifiedUser = { userId: decoded.userId };
-
+        // try {
+        //     const user = await User.findById(req.verifiedUser.userId);
+        //     if (!user) return res.status(401).json({ error: '用户不存在' });
+        //     next();
+        // } catch (error) {
+        //     return res.status(500).json({ error: error.message });
+        // }
         next();
     } catch (error) {
         console.error('验证失败详情:', error.message);

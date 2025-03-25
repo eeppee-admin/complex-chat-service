@@ -1,4 +1,4 @@
-# usr-f62305a817a0495d2aac216f
+# usr-e1cfad43c0629fc99e3e72fc
 ### 注册账户 testuser 为发送消息者
 POST http://localhost:4000/api/auth/register
 Content-Type: application/json
@@ -8,7 +8,7 @@ Content-Type: application/json
   "password": "mypassword"
 }
 
-# usr-d420516ed42c68bfcd635563
+# usr-ae31ac1694f2ca17d79c604f
 ### 注册账户 testuser2 为接收消息者
 POST http://localhost:4000/api/auth/register
 Content-Type: application/json

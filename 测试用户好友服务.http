@@ -1,0 +1,45 @@
+### 发送好友申请
+POST http://localhost:3000/api/friends/requests
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTQ3ODQzOGY0YjlhNDlmYmMxIiwiaWF0IjoxNzQyODcwMTU0LCJleHAiOjE3NDI4OTg5NTR9.kB3Xd9aur6UpGarD5apjqza1DtYyQ0C9SqAceQ6rwaI
+Content-Type: application/json
+
+{
+  "targetUserId": "usr-67e215a678438f4b9a49fbc3"
+}
+
+### 发送私聊消息 (需要先成为好友)
+POST http://localhost:3000/api/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY3MzkzLCJleHAiOjE3NDI4OTYxOTN9.OJc7jcNRMA9BTZYJZYxTiPgaRK9syFy3bjOfgihwdRY
+Content-Type: application/json
+
+{
+  "receiver": "usr-d420516ed42c68bfcd635563",
+  "content": "你好，这是好友消息测试"
+}
+
+
+### 查询我的好友申请
+GET http://localhost:3000/api/friends/requests
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTY3ODQzOGY0YjlhNDlmYmMzIiwiaWF0IjoxNzQyODcwMjE0LCJleHAiOjE3NDI4OTkwMTR9.JmBXmYW7VBt-8mi4hKxPHPIJkFCtoB6XEXKP3lOyRcI
+
+### 处理好友申请 (action=accept/reject)
+PUT http://localhost:3000/api/friends/requests/67e21ef80bfb28558ab050a1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTY3ODQzOGY0YjlhNDlmYmMzIiwiaWF0IjoxNzQyODcwMjE0LCJleHAiOjE3NDI4OTkwMTR9.JmBXmYW7VBt-8mi4hKxPHPIJkFCtoB6XEXKP3lOyRcI
+Content-Type: application/json
+
+{
+  "action": "accept"
+}
+
+### 获取用户好友列表x
+GET http://localhost:3000/api/friends/usr-67e215a678438f4b9a49fbc3/friends
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTY3ODQzOGY0YjlhNDlmYmMzIiwiaWF0IjoxNzQyODcwMjE0LCJleHAiOjE3NDI4OTkwMTR9.JmBXmYW7VBt-8mi4hKxPHPIJkFCtoB6XEXKP3lOyRcI
+
+### 获取我的好友列表，使用testuser的token，测试为testuser2是我的好友
+GET http://localhost:3000/api/friends/my-friends
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTQ3ODQzOGY0YjlhNDlmYmMxIiwiaWF0IjoxNzQyODczNDA3LCJleHAiOjE3NDI5MDIyMDd9.o4xMd5TeDQ-nIvht5q3Fd_n3tjxZr9efE4qi-TCa9Y8
+
+### 获取我的好友列表，使用testuser2的token，测试为testuser是我的好友
+GET http://localhost:3000/api/friends/my-friends
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTY3ODQzOGY0YjlhNDlmYmMzIiwiaWF0IjoxNzQyODczMzg0LCJleHAiOjE3NDI5MDIxODR9.mDUoJ-6Vz4CGhEqj1Q9-WFoQ0inZzp1y1JlCekGb_fc
+

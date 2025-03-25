@@ -25,9 +25,9 @@ const FriendSchema = new mongoose.Schema({
 });
 
 // 添加唯一复合索引防止重复申请
-FriendSchema.index({ user: 1, friend: 1 }, { 
+FriendSchema.index({ user: 1, friend: 1 }, {
     unique: true,
-    partialFilterExpression: { status: 'pending' } 
+    partialFilterExpression: { status: 'pending' }
 });
 
 // 添加虚拟字段方便查询

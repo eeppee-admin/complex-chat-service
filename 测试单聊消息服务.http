@@ -86,11 +86,31 @@ Content-Type: application/json
 GET http://localhost:3000/api/messages/history
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
 
-### 这是testuser获取自己接收的历史消息
-GET http://localhost:3000/api/messages/history
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
+# ### 这是testuser获取自己接收的历史消息
+# GET http://localhost:3000/api/messages/history
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
 
-### 测试聊天消息撤回
-### 撤回消息（替换{{messageId}}为实际ID）
-PUT http://localhost:3000/api/messages/67e20a07035193b2c79ab674/recall
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
+# ### 测试聊天消息撤回
+# ### 撤回消息（替换{{messageId}}为实际ID）
+# PUT http://localhost:3000/api/messages/67e20a07035193b2c79ab674/recall
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
+
+
+### 发送消息
+POST http://localhost:3000/api/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTQ3ODQzOGY0YjlhNDlmYmMxIiwiaWF0IjoxNzQyODcwMTU0LCJleHAiOjE3NDI4OTg5NTR9.kB3Xd9aur6UpGarD5apjqza1DtYyQ0C9SqAceQ6rwaI
+Content-Type: application/json
+
+{
+  "receiver": "usr-67e215a678438f4b9a49fbc3",
+  "content": "你好，这是第一条消息"
+}
+
+### 获取历史消息（使用查询参数）
+GET http://localhost:3000/api/messages/history?friendId=usr-67e215a678438f4b9a49fbc3&limit=20
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTQ3ODQzOGY0YjlhNDlmYmMxIiwiaWF0IjoxNzQyODcwMTU0LCJleHAiOjE3NDI4OTg5NTR9.kB3Xd9aur6UpGarD5apjqza1DtYyQ0C9SqAceQ6rwaI
+
+
+### 撤回消息,时间2分钟
+PUT http://localhost:3000/api/messages/67e22280c81422e94fee2f9a/recall
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTQ3ODQzOGY0YjlhNDlmYmMxIiwiaWF0IjoxNzQyODcwMTU0LCJleHAiOjE3NDI4OTg5NTR9.kB3Xd9aur6UpGarD5apjqza1DtYyQ0C9SqAceQ6rwaI

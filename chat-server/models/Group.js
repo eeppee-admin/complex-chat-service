@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import User from './User.js'; // 确保引用同一个模型
+import User from '../../shared/models/User.js';
 
 const GroupSchema = new mongoose.Schema({
   _id: {
