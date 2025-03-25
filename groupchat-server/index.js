@@ -1,7 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import authRouter from './routes/auth.js';
 import dotenv from 'dotenv';
+import groupRouters from './routes/groupRoutes.js';
+
 
 dotenv.config();
 const app = express();
@@ -15,8 +16,8 @@ mongoose.connect(process.env.USER_DB_URI)
 app.use(express.json());
 
 // 用户登录注册路由
-app.use('/api/auth', authRouter);
+app.use('/api/group', groupRouters);
 
-app.listen(4000, () => {
-    console.log('用户服务运行在 4000 端口');
+app.listen(5000, () => {
+    console.log('群组服务运行在 5000 端口');
 });

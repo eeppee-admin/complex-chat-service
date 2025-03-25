@@ -25,6 +25,6 @@ const FriendshipSchema = new mongoose.Schema({
 });
 
 // 添加复合唯一索引
-FriendshipSchema.index({ user: 1, friend: 1 }, { unique: true });
+FriendshipSchema.index({user: 1, friend: 1}, {unique: true});
 
 export default mongoose.model('Friendship', FriendshipSchema);

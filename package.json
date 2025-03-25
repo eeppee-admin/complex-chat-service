@@ -4,7 +4,8 @@
   "scripts": {
     "start:user": "nodemon user-server/index.js --port 4000",
     "start:chat": "nodemon chat-server/index.js --port 3000",
-    "start": "concurrently \"npm run start:user\" \"npm run start:chat\""
+    "start:group-chat": "nodemon groupchat-server/index.js --port 5000",
+    "start": "concurrently \"npm run start:user\" \"npm run start:chat\" \"npm run start:group-chat\""
   },
   "type": "module",
   "dependencies": {

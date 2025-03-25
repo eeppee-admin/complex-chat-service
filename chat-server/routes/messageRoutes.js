@@ -1,7 +1,7 @@
 import express from 'express';
-import Message from '../models/Message.js';
-import { verifyUser } from '../middleware/auth.js';
-import Friend from '../models/Friend.js';
+import Message from '../../shared/models/Message.js';
+import { verifyUser } from '../../shared/middleware/auth.js';
+import Friend from '../../shared/models/Friend.js';
 const router = express.Router();
 import User from '../../shared/models/User.js';
 import Friendship from '../../shared/models/Friendship.js';

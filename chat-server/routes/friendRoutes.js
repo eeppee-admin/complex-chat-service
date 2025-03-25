@@ -1,21 +1,24 @@
 import express from 'express';
-import Friend from '../models/Friend.js';
-import { verifyUser } from '../middleware/auth.js';
+import Friend from '../../shared/models/Friend.js';
+import {verifyUser} from '../../shared/middleware/auth.js';
+
 const router = express.Router();
 import User from '../../shared/models/User.js';
 import mongoose from 'mongoose';
 import Friendship from '../../shared/models/Friendship.js';
+
+
 // 发送好友申请
 // 修改获取用户ID的方式
 router.post('/requests', verifyUser, async (req, res) => {
     try {
-        const { targetUserId } = req.body;
+        const {targetUserId} = req.body;
 
         // 修改为从 verifiedUser 获取当前用户ID
         const currentUserId = req.verifiedUser.userId;
 
         if (targetUserId === currentUserId) {
-            return res.status(400).json({ error: '不能添加自己为好友' });
+            return res.status(400).json({error: '不能添加自己为好友'});
         }
 
         const newRequest = new Friend({
@@ -25,9 +28,9 @@ router.post('/requests', verifyUser, async (req, res) => {
         });
 
         await newRequest.save();
-        res.status(201).json({ message: '好友申请已发送' });
+        res.status(201).json({message: '好友申请已发送'});
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 
@@ -46,7 +49,7 @@ router.put('/requests/:requestId', verifyUser, async (req, res) => {
                 requestId: req.params.requestId,
                 currentUser: req.verifiedUser.userId
             });
-            return res.status(404).json({ error: '申请记录不存在或已处理' });
+            return res.status(404).json({error: '申请记录不存在或已处理'});
         }
 
         // 更新申请状态
@@ -59,8 +62,8 @@ router.put('/requests/:requestId', verifyUser, async (req, res) => {
         if (request.status === 'accepted') {
             // 创建双向好友关系
             await Friendship.create([
-                { user: request.user, friend: request.friend },
-                { user: request.friend, friend: request.user }
+                {user: request.user, friend: request.friend},
+                {user: request.friend, friend: request.user}
             ]);
 
             // 返回成功响应
@@ -69,7 +72,7 @@ router.put('/requests/:requestId', verifyUser, async (req, res) => {
                 message: '好友关系已建立'
             });
         } else {
-            res.json({ request });
+            res.json({request});
         }
         const reverseFriend = new Friend({
             user: req.verifiedUser.userId,
@@ -78,7 +81,7 @@ router.put('/requests/:requestId', verifyUser, async (req, res) => {
         });
         await reverseFriend.save();
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 
@@ -93,8 +96,6 @@ router.get('/requests', verifyUser, async (req, res) => {
 });
 
 
-
-
 // 新增好友列表查询接口
 router.get('/:userId/friends', verifyUser, async (req, res) => {
     try {
@@ -103,7 +104,7 @@ router.get('/:userId/friends', verifyUser, async (req, res) => {
             .populate({
                 path: 'friends',
                 select: 'username avatar lastActive',
-                options: { allowEmptyArray: true } // 允许空数组
+                options: {allowEmptyArray: true} // 允许空数组
             });
 
         // 添加空值保护逻辑
@@ -140,7 +141,7 @@ router.get('/my-friends', verifyUser, async (req, res) => {
             }))
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({error: error.message});
     }
 });
 

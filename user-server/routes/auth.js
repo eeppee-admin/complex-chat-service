@@ -83,9 +83,23 @@ router.get('/verify', async (req, res) => {
 router.get('/exists/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
-        res.status(user ? 200 : 404).json({ exists: !!user });
+        // 明确返回状态码
+        if (user) {
+            res.status(200).json({
+                exists: true,
+                userId: user._id
+            });
+        } else {
+            res.status(404).json({
+                exists: false,
+                error: "用户不存在"
+            });
+        }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({
+            error: '服务器内部错误',
+            detail: error.message
+        });
     }
 });
 

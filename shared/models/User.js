@@ -62,7 +62,7 @@ const UserSchema = new mongoose.Schema({
     }
 }, {
     timestamps: true,
-    toJSON: { virtuals: true } // 允许虚拟字段序列化
+    toJSON: {virtuals: true} // 允许虚拟字段序列化
 });
 
 // 添加好友数量统计虚拟字段
@@ -85,9 +85,9 @@ UserSchema.methods.comparePassword = async function (candidatePassword) {
 UserSchema.post('updateOne', async function () {
     if (this._update.$addToSet?.friends) {
         await this.model.updateOne(
-            { _id: this._conditions._id },
-            { $pull: { friends: { $size: 0 } } }, // 改为数值0
-            { strict: false }
+            {_id: this._conditions._id},
+            {$pull: {friends: {$size: 0}}}, // 改为数值0
+            {strict: false}
         );
     }
 });

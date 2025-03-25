@@ -44,3 +44,24 @@
 # {
 #   "content": "这是通过群组名发送的测试消息"
 # }
+
+
+
+### 创建新群组
+POST http://localhost:5000/api/group
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjUyOTE0NWFmMDE4Y2IxN2UzZTVkIiwiaWF0IjoxNzQyODg1NTMzLCJleHAiOjE3NDI5MTQzMzN9.oLUauqKocy0eKV-cdFBIlmCooh9kqbYUbxSa8YKTGaw
+Content-Type: application/json
+
+{
+    "groupName": "骚鸡",
+    "initialMembers": ["usr-67e2529645af018cb17e3e5f"]
+}
+
+### 创建群组后，查看群组信息
+GET http://localhost:5000/api/group/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjUyOTE0NWFmMDE4Y2IxN2UzZTVkIiwiaWF0IjoxNzQyODg1NTMzLCJleHAiOjE3NDI5MTQzMzN9.oLUauqKocy0eKV-cdFBIlmCooh9kqbYUbxSa8YKTGaw
+
+
+### 通过群组名称查询（中文需编码）
+GET http://localhost:5000/api/group//my-groups/骚鸡
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjUyOTE0NWFmMDE4Y2IxN2UzZTVkIiwiaWF0IjoxNzQyODg1NTMzLCJleHAiOjE3NDI5MTQzMzN9.oLUauqKocy0eKV-cdFBIlmCooh9kqbYUbxSa8YKTGaw

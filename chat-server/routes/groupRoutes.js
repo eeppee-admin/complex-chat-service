@@ -1,22 +1,24 @@
 import express from 'express';
-import Group from '../models/Group.js';
-import { verifyUser } from '../middleware/auth.js';
+import Group from '../../shared/models/Group.js';
+import {verifyUser} from '../../shared/middleware/auth.js';
+
 const router = express.Router();
-import Message from '../models/Message.js';
-import { validateGroupMembers } from '../middleware/userValidation.js';
+import Message from '../../shared/models/Message.js';
+
+
 // 创建群组
 router.post('/', verifyUser, async (req, res) => {
     try {
-        const { name, members } = req.body;
+        const {name, members} = req.body;
         const allMembers = [...new Set([req.verifiedUser.userId, ...members])];
 
         // 直接查询用户是否存在
         const existingUsers = await User.countDocuments({
-            _id: { $in: allMembers }
+            _id: {$in: allMembers}
         });
 
         if (existingUsers !== allMembers.length) {
-            return res.status(400).json({ error: '包含无效的用户ID' });
+            return res.status(400).json({error: '包含无效的用户ID'});
         }
 
         const newGroup = new Group({
@@ -30,10 +32,9 @@ router.post('/', verifyUser, async (req, res) => {
         res.status(201).json(savedGroup);
     } catch (error) {
         console.error('[ERROR] 群组创建失败:', error.message);
-        res.status(400).json({ error: error.message });
+        res.status(400).json({error: error.message});
     }
 });
-
 
 
 // 获取用户所在群组列表
@@ -47,7 +48,7 @@ router.get('/my-groups', verifyUser, async (req, res) => {
                 $in: [req.verifiedUser.userId]  // 使用 $in 操作符确保准确查询
             }
         }).select('name _id members createdAt')
-            .sort({ createdAt: -1 });  // 按创建时间倒序
+            .sort({createdAt: -1});  // 按创建时间倒序
 
         // 添加空结果处理
         if (groups.length === 0) {
@@ -157,7 +158,7 @@ router.delete('/my-groups/:groupName/members/me', verifyUser, async (req, res) =
                 members: req.verifiedUser.userId
             },
             {
-                $pull: { members: req.verifiedUser.userId }
+                $pull: {members: req.verifiedUser.userId}
             },
             {
                 new: true,

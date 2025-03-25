@@ -1,6 +1,6 @@
 // import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
-import User from '../../shared/models/User.js';
+import User from '../models/User.js';
 
 export const verifyUser = async (req, res, next) => {
 
@@ -10,7 +10,7 @@ export const verifyUser = async (req, res, next) => {
 
         // 增强错误提示
         if (!authHeader) {
-            return res.status(401).json({ error: '缺少授权头，请提供访问令牌' });
+            return res.status(401).json({error: '缺少授权头，请提供访问令牌'});
         }
 
         const token = authHeader.split(' ')[1];
@@ -21,7 +21,7 @@ export const verifyUser = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.verifiedUser = { userId: decoded.userId };
+        req.verifiedUser = {userId: decoded.userId};
         // try {
         //     const user = await User.findById(req.verifiedUser.userId);
         //     if (!user) return res.status(401).json({ error: '用户不存在' });
