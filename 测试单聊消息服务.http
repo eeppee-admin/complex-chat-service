@@ -102,7 +102,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItN
 Content-Type: application/json
 
 {
-  "receiver": "usr-67e215a678438f4b9a49fbc3",
+  "receiver": "usr-67e26bff4ac185fbda056623",
   "content": "你好，这是第一条消息"
 }
 

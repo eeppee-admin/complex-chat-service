@@ -4,7 +4,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItN
 Content-Type: application/json
 
 {
-  "targetUserId": "usr-67e215a678438f4b9a49fbc3"
+  "targetUserId": "usr-67e26bff4ac185fbda056623"
 }
 
 ### 发送私聊消息 (需要先成为好友)
@@ -20,11 +20,11 @@ Content-Type: application/json
 
 ### 查询我的好友申请
 GET http://localhost:3000/api/friends/requests
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTY3ODQzOGY0YjlhNDlmYmMzIiwiaWF0IjoxNzQyODcwMjE0LCJleHAiOjE3NDI4OTkwMTR9.JmBXmYW7VBt-8mi4hKxPHPIJkFCtoB6XEXKP3lOyRcI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjZiZmY0YWMxODVmYmRhMDU2NjIzIiwiaWF0IjoxNzQyODkyMDU2LCJleHAiOjE3NDI5MjA4NTZ9.K3r5oixu5aANbYioWm1PvkLQiloJsoPm9tgGih3Zg9g
 
 ### 处理好友申请 (action=accept/reject)
-PUT http://localhost:3000/api/friends/requests/67e21ef80bfb28558ab050a1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjE1YTY3ODQzOGY0YjlhNDlmYmMzIiwiaWF0IjoxNzQyODcwMjE0LCJleHAiOjE3NDI4OTkwMTR9.JmBXmYW7VBt-8mi4hKxPHPIJkFCtoB6XEXKP3lOyRcI
+PUT http://localhost:3000/api/friends/requests/67e26c6fc179eda95b1f38d6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjZiZmY0YWMxODVmYmRhMDU2NjIzIiwiaWF0IjoxNzQyODkyMDU2LCJleHAiOjE3NDI5MjA4NTZ9.K3r5oixu5aANbYioWm1PvkLQiloJsoPm9tgGih3Zg9g
 Content-Type: application/json
 
 {
