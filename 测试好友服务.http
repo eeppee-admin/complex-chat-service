@@ -1,0 +1,32 @@
+### 发送好友申请
+POST http://localhost:3000/api/friends/requests
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY3MzkzLCJleHAiOjE3NDI4OTYxOTN9.OJc7jcNRMA9BTZYJZYxTiPgaRK9syFy3bjOfgihwdRY
+Content-Type: application/json
+
+{
+  "targetUserId": "usr-d420516ed42c68bfcd635563"
+}
+
+### 发送私聊消息 (需要先成为好友)
+POST http://localhost:3000/api/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY3MzkzLCJleHAiOjE3NDI4OTYxOTN9.OJc7jcNRMA9BTZYJZYxTiPgaRK9syFy3bjOfgihwdRY
+Content-Type: application/json
+
+{
+  "receiver": "usr-d420516ed42c68bfcd635563",
+  "content": "你好，这是好友消息测试"
+}
+
+
+### 查询我的好友申请
+GET http://localhost:3000/api/friends/requests
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZDQyMDUxNmVkNDJjNjhiZmNkNjM1NTYzIiwiaWF0IjoxNzQyODY3OTkyLCJleHAiOjE3NDI4OTY3OTJ9.t_MYkTrzbuj6X8LeBtPyeE-fDSg1CwNWysfy1lAxS1g
+
+### 处理好友申请 (action=accept/reject)
+PUT http://localhost:3000/api/friends/requests/67e20c7269071bbb1f5ffd60
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZDQyMDUxNmVkNDJjNjhiZmNkNjM1NTYzIiwiaWF0IjoxNzQyODY3OTkyLCJleHAiOjE3NDI4OTY3OTJ9.t_MYkTrzbuj6X8LeBtPyeE-fDSg1CwNWysfy1lAxS1g
+Content-Type: application/json
+
+{
+  "action": "accept"
+}

@@ -1,0 +1,96 @@
+# ### 测试私聊消息
+# POST http://localhost:3000/api/messages
+# Content-Type: application/json
+
+# {
+#   "sender": "user_001",
+#   "receiver": "user_002",
+#   "content": "Hello World"
+# }
+
+# ### 测试群组创建
+# ### 创建测试群组
+# POST http://localhost:3000/api/groups
+# Content-Type: application/json
+
+# {
+#   "name": "开发群组",
+#   "creator": "user_001",
+#   "members": ["user_002", "user_003"]
+# }
+
+# ### 获取群组详情
+# GET http://localhost:3000/api/groups/{{groupID}}
+# # 替换{{groupID}}为上一步响应中的_id
+
+# ### 添加群组成员
+# POST http://localhost:3000/api/groups/{{groupID}}/members
+# Content-Type: application/json
+
+# {
+#   "newMembers": ["user_004", "user_005"]
+# }
+
+# ### 发送群组消息
+# POST http://localhost:3000/api/messages
+# Content-Type: application/json
+
+# {
+#   "sender": "user_001",
+#   "receiver": "{{groupID}}",
+#   "type": "group",
+#   "content": "欢迎新成员！"
+# }
+
+# ### 获取历史消息
+# GET http://localhost:3000/api/messages/history?sender=user_001&receiver=user_002
+
+
+# ###
+# POST http://localhost:3000/api/messages
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItODE4OGY4Yzg1M2Y2NDE1MDlhZGI5MmQ1ZGIyZTBjZDYiLCJpYXQiOjE3NDI4MTYwMTYsImV4cCI6MTc0MjgxOTYxNn0.VCZp93uijPnhKe9XfKKbjTI7ek4DlFXW5FhVCRXmPcg
+
+# {
+#   "receiver": "testuser",
+#   "content": "自动认证的测试消息"
+# }
+
+# ### 发送私聊消息（使用正确格式ID）
+# POST http://localhost:3000/api/messages
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItODE4OGY4Yzg1M2Y2NDE1MDlhZGI5MmQ1ZGIyZTBjZDYiLCJpYXQiOjE3NDI4MTYyNTAsImV4cCI6MTc0MjgxOTg1MH0.AWuUMeObZ0ORBnpyiABzNJxzC55bA5X3Tf-9vTGtXCo
+
+# {
+#   "receiver": "usr-67e144d538239a5928994b2a",
+#   "content": "格式正确的测试消息"
+# }
+
+
+### testuser发送消息给testuser2
+POST http://localhost:3000/api/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
+Content-Type: application/json
+
+{
+  "receiver": "usr-d420516ed42c68bfcd635563",
+  "content": "新用户测试消息"
+}
+
+### testuser获取testuser2的历史消息，只要某个用户登录，提供凭证就可以查看其他人的历史消息，
+### 是不是不安全，应该是用户提供自己的凭证查看自己的历史消息
+# GET http://localhost:3000/api/messages/history/usr-151e454536a589c46f318816
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItYWJjZjBmZTY2YWNiM2QzY2U4MDMwZGE1IiwiaWF0IjoxNzQyODE3Njc4LCJleHAiOjE3NDI4MjEyNzh9.0m90w78fQ_pfG3_Bbv5CABHAaEiXPHC8nPHc5kzXwsk
+
+### 这是testuser获取自己发送的历史消息
+GET http://localhost:3000/api/messages/history
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
+
+### 这是testuser获取自己接收的历史消息
+GET http://localhost:3000/api/messages/history
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U
+
+### 测试聊天消息撤回
+### 撤回消息（替换{{messageId}}为实际ID）
+PUT http://localhost:3000/api/messages/67e20a07035193b2c79ab674/recall
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItZjYyMzA1YTgxN2EwNDk1ZDJhYWMyMTZmIiwiaWF0IjoxNzQyODY2OTA1LCJleHAiOjE3NDI4OTU3MDV9.1xUlpT3gFrVhs3xumH6TFXTzxgUTjBbEX51snc_Df1U

@@ -1,0 +1,46 @@
+# usr-f62305a817a0495d2aac216f
+### 注册账户 testuser 为发送消息者
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "mypassword"
+}
+
+# usr-d420516ed42c68bfcd635563
+### 注册账户 testuser2 为接收消息者
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "password": "mypassword"
+}
+
+### 注册第三个用户 usr-1b74e1e808a01180ff7524ae
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "newuser",
+  "password": "newpass123"
+}
+
+### 登录testuser
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "password": "mypassword"
+}
+
+### 登录testuser2
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "password": "mypassword"
+}

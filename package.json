@@ -1,0 +1,22 @@
+{
+  "name": "simple-chat-api",
+  "version": "1.0.0",
+  "scripts": {
+    "start:user": "nodemon user-server/index.js --port 4000",
+    "start:chat": "nodemon chat-server/index.js --port 3000",
+    "start": "concurrently \"npm run start:user\" \"npm run start:chat\""
+  },
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "bcryptjs": "^3.0.2",
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.2",
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.9",
+    "socket.io": "^4.8.1"
+  }
+}

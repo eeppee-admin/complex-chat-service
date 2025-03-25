@@ -1,0 +1,43 @@
+POST https://appleid.apple.com/auth/token
+Content-Type: application/json
+
+{
+    "client_id": "com.xxx.xxx",
+    "client_secret": "xxx-xxx-xxx",
+    "grant_type": "client_credentials"
+        
+}
+### 
+POST https://graph.facebook.com/v18.0/oauth/access_token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=YOUR_FB_APP_ID
+&client_secret=YOUR_FB_APP_SECRET
+&redirect_uri=https%3A%2F%2Fyourdomain.com%2Fauth%2Ffb_callback
+&code=AUTHORIZATION_CODE
+&grant_type=authorization_code
+
+
+
+###
+POST https://oauth2.googleapis.com/token
+Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
+
+{
+    "client_id": "1061803375625-5am1fea0fopls7jl2hnqd8po1mfph9pt.apps.googleusercontent.com",
+    "client_secret": "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",
+    "redirect_uri": "http://localhost:3000/app/auth/google/callback",
+    "code": "AUTHORIZATION_CODE",
+    "grant_type": "authorization_code"
+}
+
+
+client_id=1061803375625-5am1fea0fopls7jl2hnqd8po1mfph9pt.apps.googleusercontent.com
+&client_secret=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
+&redirect_uri=http://localhost:3000/app/auth/google/callback
+&code=AUTHORIZATION_CODE
+&grant_type=authorization_code
+
+
+###
