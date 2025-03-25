@@ -49,12 +49,12 @@
 
 ### 创建新群组
 POST http://localhost:5000/api/group
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjUyOTE0NWFmMDE4Y2IxN2UzZTVkIiwiaWF0IjoxNzQyODg1NTMzLCJleHAiOjE3NDI5MTQzMzN9.oLUauqKocy0eKV-cdFBIlmCooh9kqbYUbxSa8YKTGaw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjU4ZTEzYzVmN2Q2ZWM5ZDljNzIxIiwiaWF0IjoxNzQyODg3MTQzLCJleHAiOjE3NDI5MTU5NDN9.beR_aoAj1Oopp4azoM4zwaWdpgM5aXoO6LjkuMDrIO8
 Content-Type: application/json
 
 {
-    "groupName": "骚鸡",
-    "initialMembers": ["usr-67e2529645af018cb17e3e5f"]
+    "groupName": "开发组",
+    "initialMembers": ["usr-67e258e33c5f7d6ec9d9c723"]
 }
 
 ### 创建群组后，查看群组信息
@@ -63,5 +63,29 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItN
 
 
 ### 通过群组名称查询（中文需编码）
-GET http://localhost:5000/api/group//my-groups/骚鸡
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjUyOTE0NWFmMDE4Y2IxN2UzZTVkIiwiaWF0IjoxNzQyODg1NTMzLCJleHAiOjE3NDI5MTQzMzN9.oLUauqKocy0eKV-cdFBIlmCooh9kqbYUbxSa8YKTGaw
+GET http://localhost:5000/api/group/my-groups/开发组
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjU4ZTEzYzVmN2Q2ZWM5ZDljNzIxIiwiaWF0IjoxNzQyODg3MTQzLCJleHAiOjE3NDI5MTU5NDN9.beR_aoAj1Oopp4azoM4zwaWdpgM5aXoO6LjkuMDrIO8
+
+
+### 通过群组名发送消息（中文需要编码）,群主发送消息
+POST http://localhost:5000/api/group/my-groups/开发组/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjU4ZTEzYzVmN2Q2ZWM5ZDljNzIxIiwiaWF0IjoxNzQyODg3MTQzLCJleHAiOjE3NDI5MTU5NDN9.beR_aoAj1Oopp4azoM4zwaWdpgM5aXoO6LjkuMDrIO8
+Content-Type: application/json
+
+{
+    "content": "这是通过群组名发送的测试消息"
+}
+
+
+### 通过群组名发送消息（中文需要编码），群员发送消息，根据token判断是否为开发组的群员
+POST http://localhost:5000/api/group/my-groups/开发组/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjU4ZTMzYzVmN2Q2ZWM5ZDljNzIzIiwiaWF0IjoxNzQyODg4MDk1LCJleHAiOjE3NDI5MTY4OTV9.oGK4DwCk-lWv0XounxzusArQvx-6RJA2fjvm3yTGVyE
+Content-Type: application/json
+
+{
+    "content": "我是群员，可以发送消息了"
+}
+
+### 获取群组消息（中文需要URL编码）
+GET http://localhost:5000/api/group/my-groups/开发组/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c3ItNjdlMjU4ZTMzYzVmN2Q2ZWM5ZDljNzIzIiwiaWF0IjoxNzQyODg4MDk1LCJleHAiOjE3NDI5MTY4OTV9.oGK4DwCk-lWv0XounxzusArQvx-6RJA2fjvm3yTGVyE

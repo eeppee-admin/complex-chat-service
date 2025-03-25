@@ -1,7 +1,7 @@
 import Group from '../../shared/models/Group.js';
 import express from "express";
 import GroupMembership from '../../shared/models/GroupMembersship.js';
-
+import GroupMessage from '../../shared/models/GroupMessage.js';
 import { verifyUser } from '../../shared/middleware/auth.js';
 
 
@@ -160,6 +160,155 @@ router.get('/my-groups/:groupName',
             res.status(500).json({
                 error: '查询失败',
                 detail: process.env.NODE_ENV === 'development' ? error.message : undefined // 开发环境显示错误详情
+            });
+        }
+    }
+);
+
+// 对群组发送消息
+router.post('/:groupId/messages',
+    verifyUser,
+    async (req, res) => {
+        try {
+            const { content, metadata } = req.body;
+            const { groupId } = req.params;
+            const senderId = req.verifiedUser.userId;
+
+            // 创建群消息记录
+            const newMessage = await GroupMessage.create({
+                group: groupId,
+                sender: senderId,
+                content,
+                metadata: metadata || { type: 'text' }
+            });
+
+            // 获取群组成员（排除发送者）
+            const members = await GroupMembership.find({
+                group: groupId,
+                user: { $ne: senderId }
+            }).select('user -_id');
+
+            // 推送消息给成员（需要实现消息推送服务）
+            members.forEach(member => {
+                // 这里调用消息推送服务
+                console.log(`推送消息到用户 ${member.user}`);
+            });
+
+            res.status(201).json({
+                messageId: newMessage._id,
+                sentAt: newMessage.createdAt,
+                receivers: members.map(m => m.user)
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                error: '消息发送失败',
+                detail: error.message
+            });
+        }
+    }
+);
+
+
+// 修改消息发送路由路径, 对群组名
+router.post('/my-groups/:groupName/messages',
+    verifyUser,
+    async (req, res) => {
+        try {
+            const { content, metadata } = req.body;
+            const groupName = decodeURIComponent(req.params.groupName);
+            const senderId = req.verifiedUser.userId;
+
+            // 获取完整的群组文档
+            const group = await Group.findOne({
+                name: groupName,
+                'members.userId': senderId  // 验证用户是群组成员
+            });
+
+            if (!group) {
+                return res.status(404).json({
+                    error: '群组不存在或您没有权限',
+                    solution: '请检查群组名称是否正确 | 您不是该群组成员或群组不存在'
+                });
+            }
+
+            // 从group文档直接获取成员列表
+            const allMembers = group.members.map(m => m.userId);
+            const receivers = allMembers.filter(id => id !== senderId);
+
+            // 创建群消息记录
+            const newMessage = await GroupMessage.create({
+                group: group._id,
+                sender: senderId,
+                content,
+                metadata: metadata || { type: 'text' }
+            });
+
+            // 推送消息给所有成员
+            receivers.forEach(userId => {
+                console.log(`推送消息到用户 ${userId}`);
+            });
+
+            res.status(201).json({
+                messageId: newMessage._id,
+                sentAt: newMessage.createdAt,
+                receivers,
+                total: receivers.length
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                error: '消息发送失败',
+                detail: error.message
+            });
+        }
+    }
+);
+
+
+router.get('/my-groups/:groupName/messages',
+    verifyUser,
+    async (req, res) => {
+        try {
+            const groupName = decodeURIComponent(req.params.groupName);
+            const userId = req.verifiedUser.userId;
+
+            // 验证用户群组成员身份
+            const group = await Group.findOne({
+                name: groupName,
+                'members.userId': userId
+            });
+
+            if (!group) {
+                return res.status(403).json({
+                    error: '访问拒绝',
+                    solution: '您不是该群组成员或群组不存在'
+                });
+            }
+
+            // 获取群组消息（按时间倒序）
+            const messages = await GroupMessage.find({ group: group._id })
+                .sort({ createdAt: -1 })
+                .populate('sender', 'username avatar')
+                .lean();
+
+            res.json({
+                groupId: group._id,
+                groupName: group.name,
+                total: messages.length,
+                messages: messages.map(msg => ({
+                    id: msg._id,
+                    content: msg.content,
+                    sender: msg.sender,
+                    timestamp: msg.createdAt,
+                    metadata: msg.metadata
+                }))
+            });
+
+        } catch (error) {
+            res.status(500).json({
+                error: '获取消息失败',
+                detail: error.message
             });
         }
     }

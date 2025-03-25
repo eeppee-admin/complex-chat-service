@@ -77,7 +77,7 @@ const GroupSchema = new mongoose.Schema({
 
 // 添加复合索引优化查询
 GroupSchema.index({ creator: 1, name: 1 }, { unique: true });
-
+GroupSchema.index({ name: 1, 'members.userId': 1 }, { unique: false });
 // 保存前更新时间戳
 GroupSchema.pre('save', function (next) {
     this.updatedAt = new Date();
